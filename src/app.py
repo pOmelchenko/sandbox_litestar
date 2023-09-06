@@ -1,4 +1,11 @@
+from dataclasses import dataclass
 from litestar import Litestar, get
+
+
+@dataclass
+class ToDoItems:
+    title: str
+    done: bool
 
 
 @get(
