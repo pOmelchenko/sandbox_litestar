@@ -21,14 +21,13 @@ TODO_LIST: list[ToDoItems] = [
     summary="Get list of ToDo items",
     description="This route returns list of ToDo items",
 )
-async def get_todo_list(done: bool|None = None) -> list[ToDoItems]:
+async def get_todo_list(done: bool | None = None) -> list[ToDoItems]:
     if done is None:
         return TODO_LIST
     elif done:
         return [item for item in TODO_LIST if item.done]
     else:
         return [item for item in TODO_LIST if not item.done]
-
 
 
 @get(
