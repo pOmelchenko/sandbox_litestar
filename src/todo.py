@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from litestar import get
+from litestar import get, post
 
 
 @dataclass
@@ -26,3 +26,15 @@ async def get_todo_list(done: bool | None = None) -> list[ToDoItem]:
     if done is None:
         return TODO_LIST
     return [item for item in TODO_LIST if item.done == done]
+
+
+@post(
+    path="/todo",
+    tags=["todo"],
+    summary="Create new item of ToDo",
+    description="This route create a new item of ToDo",
+)
+async def post_todo_list(data: ToDoItem) -> list[ToDoItem]:
+    TODO_LIST.append(data)
+
+    return TODO_LIST
