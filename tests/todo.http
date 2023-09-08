@@ -1,0 +1,11 @@
+GET http://127.0.0.1:8000/todo
+
+###
+
+POST http://127.0.0.1:8000/todo
+Content-Type: application/json
+
+{
+  "title": "NEW TODO!",
+  "done": false
+}
