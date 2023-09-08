@@ -27,10 +27,7 @@ TODO_LIST: list[ToDoItems] = [
 async def get_todo_list(done: bool | None = None) -> list[ToDoItems]:
     if done is None:
         return TODO_LIST
-    elif done:
-        return [item for item in TODO_LIST if item.done]
-    else:
-        return [item for item in TODO_LIST if not item.done]
+    return [item for item in TODO_LIST if item.done == done]
 
 
 @get(
