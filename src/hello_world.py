@@ -9,3 +9,8 @@ from litestar import get
 )
 async def get_hello_world() -> str:
     return "Hello, world!"
+
+
+routes = [
+    get_hello_world,
+]

@@ -1,16 +1,15 @@
 from litestar import Litestar
 
-from hello_world import get_hello_world
-from todo import get_todo_list, post_todo_list
-from etc import get_error, get_some_message_for_name
+import hello_world
+import todo
+import etc
 
+
+routes = []
+routes.extend(hello_world.routes)
+routes.extend(todo.routes)
+routes.extend(etc.routes)
 
 app = Litestar(
-    route_handlers=[
-        get_hello_world,
-        get_todo_list,
-        post_todo_list,
-        get_error,
-        get_some_message_for_name,
-    ]
+    route_handlers=routes
 )
