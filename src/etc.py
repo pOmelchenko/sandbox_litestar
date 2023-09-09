@@ -1,20 +1,15 @@
-from litestar import get
+from litestar import get, Controller
 from litestar.exceptions import HTTPException
 from litestar.openapi.datastructures import ResponseSpec
-
-
-def routes() -> list:
-    return [
-        Etc.get_error,
-        Etc.get_some_message_for_name,
-    ]
 
 
 class SomeModel(HTTPException):
     pass
 
 
-class Etc:
+class Etc(Controller):
+    path = "/etc"
+
     @get(
         path="/error",
         tags=["etc"],

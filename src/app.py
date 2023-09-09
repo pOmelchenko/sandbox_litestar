@@ -1,15 +1,10 @@
 from litestar import Litestar
 
-import hello_world
-import todo
-import etc
+from hello_world import HelloWorld
+from todo import ToDo
+from etc import Etc
 
-
-routes = []
-
-for controller in [hello_world, todo, etc]:
-    routes.extend(controller.routes())
 
 app = Litestar(
-    route_handlers=routes
+    route_handlers=[HelloWorld, ToDo, Etc]
 )

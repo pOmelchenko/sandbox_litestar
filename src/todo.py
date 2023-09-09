@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from litestar import get, post
+from litestar import get, post, put, Controller
 from litestar.exceptions import NotFoundException
 
 
@@ -17,15 +17,7 @@ TODO_LIST: list[ToDoItem] = [
 ]
 
 
-def routes() -> list:
-    return [
-        ToDo.get_todo_list,
-        ToDo.post_todo_list,
-        ToDo.get_item_by_title,
-    ]
-
-
-class ToDo:
+class ToDo(Controller):
     @get(
         path="/todo",
         tags=["todo"],
@@ -58,8 +50,22 @@ class ToDo:
     @get(
         path="/todo/{title:str}",
         tags=["todo"],
-        summary="Return todo item by title",
+        summary="Return ToDo item by title",
         description="This route return ToDo item by title",
     )
     async def get_item_by_title(self, title: str) -> ToDoItem:
         return self.__get_todo_item_by_title(title)
+
+    @put(
+        path="/todo/{title:str}",
+        tags=["todo"],
+        summary="Update ToDo item by title",
+        description="This route for update ToDo item by title",
+    )
+    async def put_todo_item(self, title: str, data: ToDoItem) -> list[ToDoItem]:
+        item = self.__get_todo_item_by_title(title)
+        item.title = data.title
+        item.done = data.done
+
+        return TODO_LIST
+

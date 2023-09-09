@@ -1,13 +1,7 @@
-from litestar import get
+from litestar import get, Controller
 
 
-def routes() -> list:
-    return [
-        HelloWorld.get_hello_world,
-    ]
-
-
-class HelloWorld:
+class HelloWorld(Controller):
     @get(
         path="/hello-world",
         tags=["main"],
