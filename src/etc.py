@@ -9,7 +9,7 @@ class SomeModel(HTTPException):
 
 @get(
     path="/error",
-    tags=["error"],
+    tags=["etc"],
     summary="Handle error",
     description="This route only for handle error",
     responses={
@@ -26,3 +26,13 @@ async def get_error(error: bool | None = None) -> str:
         raise HTTPException("I want to throw exception!", status_code=400)
     else:
         return "Just message"
+
+
+@get(
+    path="/some/{name:str}",
+    tags=["etc"],
+    summary="Use param from route path",
+    description="Print message with data from route path",
+)
+async def get_some_message_for_name(name: str) -> str:
+    return f"Hello from {name}"

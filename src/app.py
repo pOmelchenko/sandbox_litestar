@@ -2,7 +2,7 @@ from litestar import Litestar
 
 from hello_world import get_hello_world
 from todo import get_todo_list, post_todo_list
-from etc import get_error
+from etc import get_error, get_some_message_for_name
 
 
 app = Litestar(
@@ -11,5 +11,6 @@ app = Litestar(
         get_todo_list,
         post_todo_list,
         get_error,
+        get_some_message_for_name,
     ]
 )
