@@ -6,9 +6,9 @@ import etc
 
 
 routes = []
-routes.extend(hello_world.routes)
-routes.extend(todo.routes)
-routes.extend(etc.routes)
+
+for controller in [hello_world, todo, etc]:
+    routes.extend(controller.routes())
 
 app = Litestar(
     route_handlers=routes

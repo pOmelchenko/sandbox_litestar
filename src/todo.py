@@ -17,49 +17,49 @@ TODO_LIST: list[ToDoItem] = [
 ]
 
 
-@get(
-    path="/todo",
-    tags=["todo"],
-    summary="Get list of ToDo items",
-    description="This route returns list of ToDo items",
-)
-async def get_todo_list(done: bool | None = None) -> list[ToDoItem]:
-    if done is None:
+def routes() -> list:
+    return [
+        ToDo.get_todo_list,
+        ToDo.post_todo_list,
+        ToDo.get_item_by_title,
+    ]
+
+
+class ToDo:
+    @get(
+        path="/todo",
+        tags=["todo"],
+        summary="Get list of ToDo items",
+        description="This route returns list of ToDo items",
+    )
+    async def get_todo_list(self, done: bool | None = None) -> list[ToDoItem]:
+        if done is None:
+            return TODO_LIST
+        return [item for item in TODO_LIST if item.done == done]
+
+    @post(
+        path="/todo",
+        tags=["todo"],
+        summary="Create new item of ToDo",
+        description="This route create a new item of ToDo",
+    )
+    async def post_todo_list(self, data: ToDoItem) -> list[ToDoItem]:
+        TODO_LIST.append(data)
+
         return TODO_LIST
-    return [item for item in TODO_LIST if item.done == done]
 
+    @staticmethod
+    def __get_todo_item_by_title(title: str) -> ToDoItem:
+        for item in TODO_LIST:
+            if item.title == title:
+                return item
+        raise NotFoundException(detail=f"ToDo {title!r} not found")
 
-@post(
-    path="/todo",
-    tags=["todo"],
-    summary="Create new item of ToDo",
-    description="This route create a new item of ToDo",
-)
-async def post_todo_list(data: ToDoItem) -> list[ToDoItem]:
-    TODO_LIST.append(data)
-
-    return TODO_LIST
-
-
-def get_todo_item_by_title(title: str) -> ToDoItem:
-    for item in TODO_LIST:
-        if item.title == title:
-            return item
-    raise NotFoundException(detail=f"ToDo {title!r} not found")
-
-
-@get(
-    path="/todo/{title:str}",
-    tags=["todo"],
-    summary="Return todo item by title",
-    description="This route return ToDo item by title",
-)
-async def get_item_by_title(title: str) -> ToDoItem:
-    return get_todo_item_by_title(title)
-
-
-routes = [
-    get_todo_list,
-    post_todo_list,
-    get_item_by_title,
-]
+    @get(
+        path="/todo/{title:str}",
+        tags=["todo"],
+        summary="Return todo item by title",
+        description="This route return ToDo item by title",
+    )
+    async def get_item_by_title(self, title: str) -> ToDoItem:
+        return self.__get_todo_item_by_title(title)
