@@ -2,9 +2,10 @@ from litestar import get, Controller
 
 
 class HelloWorld(Controller):
+    path = "/hello-world"
+    tags = ["main"]
+
     @get(
-        path="/hello-world",
-        tags=["main"],
         summary="Hello World message",
         description="This route return `Hello, world!` message"
     )

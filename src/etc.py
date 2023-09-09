@@ -9,10 +9,10 @@ class SomeModel(HTTPException):
 
 class Etc(Controller):
     path = "/etc"
+    tags = ["etc"]
 
     @get(
         path="/error",
-        tags=["etc"],
         summary="Handle error",
         description="This route only for handle error",
         responses={
@@ -32,7 +32,6 @@ class Etc(Controller):
 
     @get(
         path="/some/{name:str}",
-        tags=["etc"],
         summary="Use param from route path",
         description="Print message with data from route path",
     )
