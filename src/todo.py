@@ -1,7 +1,12 @@
 from dataclasses import dataclass
+from typing import Any
 
 from litestar import get, post, put, delete, Controller
 from litestar.exceptions import NotFoundException
+
+
+ToDoType = dict[str, Any]
+ToDoCollectionType = list[ToDoType]
 
 
 class Base:
@@ -10,19 +15,15 @@ class Base:
 
 @dataclass
 class ToDoItem(Base):
-    title: str
-    done: bool
+    def __init__(self, title: str, done: bool):
+        self.title = title
+        self.done = done
 
-
-ToDoType = dict[str, bool]
-ToDoCollection = list[ToDoType]
-
-
-def serialize_todo(todo: ToDoItem) -> ToDoType:
-    return {
-        "title": todo.title,
-        "done": todo.done,
-    }
+    def serialize_todo(self) -> ToDoType:
+        return {
+            "title": self.title,
+            "done": self.done,
+        }
 
 
 TODO_LIST: list[ToDoItem] = [
