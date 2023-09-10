@@ -96,3 +96,5 @@ class ToDo(Controller):
         for key, item in enumerate(TODO_LIST):
             if item.title == title:
                 del TODO_LIST[key]
+                break
+        raise NotFoundException(detail=f"ToDo {title!r} not found")
