@@ -4,8 +4,12 @@ from litestar import get, post, put, delete, Controller
 from litestar.exceptions import NotFoundException
 
 
+class Base:
+    ...
+
+
 @dataclass
-class ToDoItem:
+class ToDoItem(Base):
     title: str
     done: bool
 
