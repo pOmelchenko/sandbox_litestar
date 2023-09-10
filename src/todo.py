@@ -93,6 +93,6 @@ class ToDo(Controller):
         description="This route for delete ToDo item by title",
     )
     async def destroy(self, title: str) -> None:
-        for item in TODO_LIST:
+        for key, item in enumerate(TODO_LIST):
             if item.title == title:
-                TODO_LIST.remove(item)
+                del TODO_LIST[key]
