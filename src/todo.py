@@ -41,19 +41,24 @@ class ToDo(Controller):
         summary="Get list of ToDo items",
         description="This route returns list of ToDo items",
     )
-    async def index(self, done: bool | None = None) -> list[ToDoItem]:
-        if done is None:
-            return TODO_LIST
-        return [item for item in TODO_LIST if item.done == done]
+    async def index(self, done: bool | None = None) -> ToDoCollectionType:
+        data = TODO_LIST if done is None else [item for item in TODO_LIST if item.done == done]
+
+        return [item.serialize_todo() for item in data]
 
     @post(
         summary="Create new item of ToDo",
         description="This route create a new item of ToDo",
     )
-    async def store(self, data: ToDoItem) -> list[ToDoItem]:
-        TODO_LIST.append(data)
+    async def store(self, data: ToDoType) -> ToDoType:
+        item = ToDoItem(
+            title=data["title"],
+            done=data["done"],
+        )
 
-        return TODO_LIST
+        TODO_LIST.append(item)
+
+        return item.serialize_todo()
 
     @staticmethod
     def __get_todo_item_by_title(title: str) -> ToDoItem:
@@ -67,20 +72,20 @@ class ToDo(Controller):
         summary="Return ToDo item by title",
         description="This route return ToDo item by title",
     )
-    async def show(self, title: str) -> ToDoItem:
-        return self.__get_todo_item_by_title(title)
+    async def show(self, title: str) -> ToDoType:
+        return self.__get_todo_item_by_title(title).serialize_todo()
 
     @put(
         path="/{title:str}",
         summary="Update ToDo item by title",
         description="This route for update ToDo item by title",
     )
-    async def update(self, title: str, data: ToDoItem) -> list[ToDoItem]:
+    async def update(self, title: str, data: ToDoType) -> ToDoType:
         item = self.__get_todo_item_by_title(title)
-        item.title = data.title
-        item.done = data.done
+        item.title = data["title"]
+        item.done = data["done"]
 
-        return TODO_LIST
+        return item.serialize_todo()
 
     @delete(
         path="/{title:str}",
