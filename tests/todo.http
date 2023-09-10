@@ -9,3 +9,18 @@ Content-Type: application/json
   "title": "NEW TODO!",
   "done": false
 }
+
+
+###
+
+PUT http://127.0.0.1:8000/todo/NEW TODO!
+Content-Type: application/json
+
+{
+  "title": "UPDATED TODO!",
+  "done": false
+}
+
+###
+
+DELETE http://127.0.0.1:8000/todo/UPDATED TODO!
