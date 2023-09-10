@@ -14,6 +14,17 @@ class ToDoItem(Base):
     done: bool
 
 
+ToDoType = dict[str, bool]
+ToDoCollection = list[ToDoType]
+
+
+def serialize_todo(todo: ToDoItem) -> ToDoType:
+    return {
+        "title": todo.title,
+        "done": todo.done,
+    }
+
+
 TODO_LIST: list[ToDoItem] = [
     ToDoItem(title="first task", done=False),
     ToDoItem(title="second task", done=True),
